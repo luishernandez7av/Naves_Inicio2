@@ -6,7 +6,7 @@ public:
 	static CGame instanceGame;
 
 	CGame();
-	void Finalize
+	void Finalize  //ACT2: Mal, Aqui dejaste un error, tu codigo debe ser compilable correctamente.
 	enum Estado{
 		ESTADO_INICIANDO,
 		ESTADO_MENU,
