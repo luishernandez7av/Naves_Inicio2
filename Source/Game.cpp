@@ -22,12 +22,12 @@ bool CGame::Start()
 			case Estado::ESTADO_INICIANDO: //INICIALIZAR
 			break;
 			case Estado::ESTADO_MENU:	//MENU
-			break
+			break;
 			case Estado::ESTADO_JUGANDO:	//JUGAR	
 			break;
 			case Estado::ESTADO_TERMINADO:	//TERMINAR
 			break;
-			case Estado::ESTADO_FINALIZADO //SALIR
+			case Estado::ESTADO_FINALIZADO: //SALIR
 				salirJuego = true;
 			break;
 		};
