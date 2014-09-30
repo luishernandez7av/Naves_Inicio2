@@ -15,7 +15,7 @@ public:
 		ESTADO_JUGANDO,
 		ESTADO_TERMINADO,
 		ESTADO_FINALIZADO,
-		};
+	};
 
 private:
 	void Iniciando();
