@@ -21,6 +21,7 @@ public:
 		};
 
 private:
+	
 	void Iniciando();
 	void MoverEnemigo();
 	bool esLimitePantalla(Nave *objeto, int bandera);
@@ -33,11 +34,18 @@ private:
 	Nave *nave;
 	//Nave *enemigo;
 	Nave **enemigoArreglo;
+	//5+
 	Nave *menu;
-	Nave *texto;
-	Nave *portada;
+	Nave *titulos;
+	Nave *fondo;
+	//5-
+//6+
+	Nave *btnInicio;
+	Nave *btnSalir;
+	//6-
 
 	Estado estado;
+	
 
 	float enemigoParabola;
 	unsigned int frames;

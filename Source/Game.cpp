@@ -20,7 +20,7 @@ void CGame::Iniciando(){
 		exit (EXIT_FAILURE);
 	}
 	screen = SDL_SetVideoMode ( WIDTH_SCREEN, HEIGHT_SCREEN, 24, SDL_HWSURFACE | SDL_DOUBLEBUF );
-
+	
 	if (screen == NULL){
 		printf("Error %s", SDL_GetError());
 		exit(EXIT_FAILURE);
@@ -31,7 +31,14 @@ void CGame::Iniciando(){
 	
 	menu = new Nave(screen, "../Data/menu.bmp",0,0,1);
 	//enemigo = new Nave(screen, "../Data/emuerte.bmp",0,0);
-
+	//6+
+	titulos= new Nave(screen,"../Data/titulos.bmp",0,0,1);
+	btnInicio= new Nave(screen,"../Data/btnInicio.bmp",0,0,1);
+	btnSalir= new Nave(screen,"../Data/btnSalir.bmp",0,0,1);
+	//6-
+	//FONFO+
+	fondo=new Nave(screen, "../Data/fondo.bmp",0,0,1);
+	//FONDO-
 	enemigoArreglo = new Nave* [10];
 	for	(int i=0;i<10;i++)
 	enemigoArreglo[i] =new Nave(screen, "../Data/enemigo.bmp",i*65,0,2);
@@ -84,13 +91,34 @@ bool CGame::Start()
 */
 				
 			case Estado::ESTADO_MENU:
-				estado=ESTADO_JUGANDO;///////////////////////////////////
-				///////////////////////////////////////menu->Pintar();
-
+				
+				menu->Pintar();
+				//6+
+				titulos->Pintar();
+				//6-
+				//estado=ESTADO_JUGANDO;///////////////////////////////////
+				//estado=ESTADO_FINALIZADO;///////////////
+				
+				SDL_Flip (screen); 
+				keys = SDL_GetKeyState(NULL);
+				
+				if(keys[SDLK_UP]){
+			//btnInicio= new Nave(screen,"../Data/btnInicio.bmp",0,0,1);
+			btnInicio->Pintar();
+			estado=ESTADO_JUGANDO;
+			}
+			
+			if (keys[SDLK_DOWN]){
+			//btnSalir= new Nave(screen,"../Data/btnSalir.bmp",0,0,1);
+			btnSalir->Pintar();
+			estado=ESTADO_FINALIZADO;
+			}
+			
 			break;
+			
 			case Estado::ESTADO_JUGANDO:	//JUGAR	
 				//MENU
-				////nave->PintarModulo (0,0,0,64,64);
+				////nave->PintarModulo (0,0,64,64);
 			SDL_FillRect(screen, NULL, 0x000000);
 			keys = SDL_GetKeyState(NULL);
 			//enemigo->Actualizar();
@@ -99,6 +127,7 @@ bool CGame::Start()
 				enemigoArreglo[i]->Actualizar();
 
 			MoverEnemigo();
+
 			if(keys[SDLK_RIGHT]&& !esLimitePantalla(nave,BORDE_DERECHO)){
 
 			//nave->PintarModulo(0,100,100);
@@ -116,6 +145,9 @@ bool CGame::Start()
 			if(keys[SDLK_DOWN]&& !esLimitePantalla(nave,BORDE_INFERIOR)){
 			nave->MoverAbajo(8);
 			}
+			//fondo+
+			fondo->Pintar();
+			//fondo-
 			//
 			nave->Pintar();
 			//enemigo->Pintar();

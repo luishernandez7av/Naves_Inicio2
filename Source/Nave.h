@@ -40,6 +40,7 @@ public:
 	int obtenerW();
 	int obtenerH();
 	void ponerEn(int x, int y);
+
 };
 
 #endif

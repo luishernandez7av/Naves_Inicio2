@@ -17,4 +17,5 @@ SpriteDef::SpriteDef(){
 	modulo[2].y=0;
 	modulo[2].w=54;
 	modulo[2].h=61;
+
 }
