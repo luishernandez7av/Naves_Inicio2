@@ -3,9 +3,18 @@
 #include "SDL.h"
 
 void Sprite::CargarImagen(char*ruta){
+	//5+
 		image= SDL_LoadBMP(ruta);
+		SDL_SetColorKey(image, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(image->format,255,0,0));//nota lo cambie a rojo
+		//porque el fondo es rojo no magenta
+	//5-
 }
-
+//+5
+void Sprite::borrarFondoNave(){
+	//image=SDL_LoadBMP(ruta);
+	//SDL_SetColorKey(image, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(image->format,255,0,0));
+}
+//-5
 Sprite::Sprite(SDL_Surface * screen){
 	this->screen =screen;
 }
@@ -33,11 +42,14 @@ SDL_Rect src;
 	dest.x =x;
 	dest.y =y;
 	SDL_BlitSurface(image, &src, screen, &dest);
+
 }
 int Sprite::WidthModule(int id){
 	return spriteDef.modulo[id].w;
+	
 }
 
 int Sprite::HeightModule(int id){
 	return spriteDef.modulo[id].h;
+	
 }

@@ -13,10 +13,11 @@ int posicionFinal;
 int posicionBrinco;
 int stepsActual;
 int stepsFinal;
+int moduleUsing;//Modulo en uso
 
 Sprite * sprite;
 public:
-	Nave(SDL_Surface * screen, char * rutaImagen, int x, int y);
+	Nave(SDL_Surface * screen, char * rutaImagen, int x, int y, int module);
 	~Nave();
 	void Pintar();
 	//

@@ -1,5 +1,3 @@
-#include <SDL.h>
-#include <SDL_image.h>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -20,7 +18,6 @@ public:
 		ESTADO_JUGANDO,
 		ESTADO_TERMINADO,
 		ESTADO_FINALIZADO,
-<<<<<<< HEAD
 		};
 
 private:
@@ -36,15 +33,15 @@ private:
 	Nave *nave;
 	//Nave *enemigo;
 	Nave **enemigoArreglo;
+	Nave *menu;
+	Nave *texto;
+	Nave *portada;
 
-=======
-	};
-
-private:
-	void Iniciando();
-	SDL_Surface *screen;
->>>>>>> origin/master
 	Estado estado;
 
 	float enemigoParabola;
+	unsigned int frames;
+	unsigned int tiempoFrameInicio;
+	unsigned int tiempoFrameFinal;
+
 };

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Game.h"
-<<<<<<< HEAD
 #include "Config.h"
 #include <SDL.h>
 #include <SDL_image.h>
@@ -9,6 +8,8 @@
 #include "Nave.h"
 
 CGame::CGame(){
+	frames=0;
+	tiempoFrameInicio=0;
 	estado = Estado::ESTADO_INICIANDO;//ACT2: Mal, aqui debes de poner tu estado inicial, por eso te marcara error.
 	atexit(SDL_Quit);
 }
@@ -18,7 +19,7 @@ void CGame::Iniciando(){
 		printf("Error %S ", SDL_GetError());
 		exit (EXIT_FAILURE);
 	}
-	screen = SDL_SetVideoMode ( WIDTH_SCREEN, HEIGHT_SCREEN, 24, SDL_HWSURFACE );
+	screen = SDL_SetVideoMode ( WIDTH_SCREEN, HEIGHT_SCREEN, 24, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
 	if (screen == NULL){
 		printf("Error %s", SDL_GetError());
@@ -26,12 +27,14 @@ void CGame::Iniciando(){
 	}
 	SDL_Flip (screen); // este codigo estara provicionalmente aqui.
 	SDL_WM_SetCaption( "Galaxia UPBC Atack", NULL);
-	nave = new Nave(screen, "../Data/MiNave3.bmp",(WIDTH_SCREEN / 2)/*-(w/2)*/,(HEIGHT_SCREEN-80)/*-(h)*/);
+	nave = new Nave(screen, "../Data/MiNave.bmp",(WIDTH_SCREEN / 2)/*-(w/2)*/,(HEIGHT_SCREEN-80)/*-(h)*/,0);
+	
+	menu = new Nave(screen, "../Data/menu.bmp",0,0,1);
 	//enemigo = new Nave(screen, "../Data/emuerte.bmp",0,0);
 
 	enemigoArreglo = new Nave* [10];
 	for	(int i=0;i<10;i++)
-	enemigoArreglo[i] =new Nave(screen, "../Data/emuerte.bmp",i*65,0);
+	enemigoArreglo[i] =new Nave(screen, "../Data/enemigo.bmp",i*65,0,2);
 
 	//enemigoParabola=-100.0f;
 	//enemigo->SetStep(4);
@@ -47,48 +50,6 @@ void CGame::Iniciando(){
 ////}
 void CGame::Finalize()
 {
-=======
-#include <SDL.h>
-#include <SDL_image.h>
-
-CGame::CGame(){
-	estado = ESTADO_INICIANDO;//ACT2: Mal, aqui debes de poner tu estado inicial, por eso te marcara error.
-	atexit(SDL_Quit);
-	//ACT3:Mal, este codigo no va aqui.
-	///ACT3: Mal, este codigo de abajo, debera ir en un metodo inicializando.
-	//if (SDL_Init(SDL_INIT_VIDEO)){
-	//	printf("Error %s", SDL_GetError());
-	//	exit(EXIT_FAILURE);
-	//}
-	//screen = SDL_SetVideoMode ( 640, 480, 24, SDL_SWSURFACE );
-
-	//if (screen == NULL){
-	//	printf("Error %s ", SDL_GetError());
-	//	exit(EXIT_FAILURE);
-	//}
-	//SDL_Flip(screen); //este codigo estara provicionalmente aqui.
-	//SDL_WM_SetCaption("Mi primer Juego", NULL);
-}
-
-//ACT3: Mal, Falto crear el metodo "iniciando()"
-void CGame::Iniciando(){
-	if (SDL_Init(SDL_INIT_VIDEO)){
-		printf("Error %s", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
-	screen = SDL_SetVideoMode ( 640, 480, 24, SDL_SWSURFACE );
-
-	if (screen == NULL){
-		printf("Error %s ", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
-	
-	SDL_WM_SetCaption("Mi primer Juego", NULL);
-}
-
-// Con esta función eliminaremos todos los elementos en pantalla
-void CGame::Finalize(){
->>>>>>> origin/master
 	SDL_Quit();
 }
 
@@ -102,7 +63,6 @@ bool CGame::Start()
 		//Maquina de estados
 		switch(estado){
 			case Estado::ESTADO_INICIANDO: //INICIALIZAR
-<<<<<<< HEAD
 				//switch(estado){
 				Iniciando();
 				estado=ESTADO_MENU;
@@ -124,6 +84,11 @@ bool CGame::Start()
 */
 				
 			case Estado::ESTADO_MENU:
+				estado=ESTADO_JUGANDO;///////////////////////////////////
+				///////////////////////////////////////menu->Pintar();
+
+			break;
+			case Estado::ESTADO_JUGANDO:	//JUGAR	
 				//MENU
 				////nave->PintarModulo (0,0,0,64,64);
 			SDL_FillRect(screen, NULL, 0x000000);
@@ -137,19 +102,19 @@ bool CGame::Start()
 			if(keys[SDLK_RIGHT]&& !esLimitePantalla(nave,BORDE_DERECHO)){
 
 			//nave->PintarModulo(0,100,100);
-			nave->Mover(1);
+			nave->Mover(8);
 			///Iniciando();
 				///estado=ESTADO_MENU;
 			}
 			//
 			if(keys[SDLK_LEFT]&& !esLimitePantalla(nave,BORDE_IZQUIERDO)){
-			nave->MoverIzquierda(1);
+			nave->MoverIzquierda(8);
 			}
 			if(keys[SDLK_UP]&& !esLimitePantalla(nave,BORDE_SUPERIOR)){
-			nave->MoverArriba(1);
+			nave->MoverArriba(8);
 			}
 			if(keys[SDLK_DOWN]&& !esLimitePantalla(nave,BORDE_INFERIOR)){
-			nave->MoverAbajo(1);
+			nave->MoverAbajo(8);
 			}
 			//
 			nave->Pintar();
@@ -158,15 +123,6 @@ bool CGame::Start()
 			for (int i=0;i<10;i++)
 				enemigoArreglo[i]->Pintar();
 
-			break;
-=======
-				Iniciando();//ACT3: Mal, falto mandar a llamr este metodo.
-				estado = ESTADO_MENU;
-			break;
-			case Estado::ESTADO_MENU:	//MENU
-			break;
->>>>>>> origin/master
-			case Estado::ESTADO_JUGANDO:	//JUGAR	
 			break;
 			case Estado::ESTADO_TERMINADO:	//TERMINAR
 			break;
@@ -180,6 +136,15 @@ bool CGame::Start()
 						if (event.type == SDL_KEYDOWN){}
 				}
 		SDL_Flip(screen); //imprime en pantalla variable screen
+
+		frames++;
+		tiempoFrameFinal = SDL_GetTicks();
+		while(tiempoFrameFinal<(tiempoFrameInicio + FPS_DELAY)){
+			tiempoFrameFinal =SDL_GetTicks();
+		SDL_Delay(1);
+		}
+		printf("Frame:%d Tiempo:%d TiempoPorFrame:%d FPS:%f\n",frames, tiempoFrameInicio, tiempoFrameFinal-tiempoFrameInicio,1000.0f /(float)(tiempoFrameFinal-tiempoFrameInicio));
+		tiempoFrameInicio= tiempoFrameFinal;
     }
 	return true;
 }
@@ -233,7 +198,7 @@ void CGame::MoverEnemigo(){
 	case 0:
 		if(!enemigoArreglo[i]->IsRunningAnimacion())
 			//enemigo->IncrementarStep();
-		enemigoArreglo[i]->Mover(1,WIDTH_SCREEN-enemigoArreglo[i]->obtenerW());
+		enemigoArreglo[i]->Mover(5,WIDTH_SCREEN-enemigoArreglo[i]->obtenerW());
 		
 	
 
@@ -246,7 +211,7 @@ void CGame::MoverEnemigo(){
 		break;
 	case 2:
 		 if (!enemigoArreglo[i]->IsRunningAnimacion())
-		  enemigoArreglo[i]->Mover(-1,WIDTH_SCREEN-enemigoArreglo[i]->obtenerW());
+		  enemigoArreglo[i]->Mover(-5,WIDTH_SCREEN-enemigoArreglo[i]->obtenerW());
 
 		 
 		

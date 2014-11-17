@@ -13,6 +13,9 @@ class Sprite{
 public:
 	void CargarImagen(char* ruta);
 	//void PintarModulo(int id, int x, int y, int h);
+	//+5
+	void borrarFondoNave();
+	//-5
 	void PintarModulo (int id, int x, int y);
 	Sprite(SDL_Surface *screen);
 	~Sprite();

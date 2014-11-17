@@ -2,11 +2,16 @@
 #include "Config.h"
 #include "Sprite.h"
 
-Nave::Nave(SDL_Surface * screen, char * rutaImagen, int x, int y){
+Nave::Nave(SDL_Surface * screen, char * rutaImagen, int x, int y, int module){
+	moduleUsing=module;
+	//+5
+	sprite->borrarFondoNave();
+	//-5
+
 	sprite = new Sprite(screen);
 	sprite->CargarImagen(rutaImagen);
-	w=sprite->WidthModule(0);
-	h=sprite->HeightModule(0);
+	w=sprite->WidthModule(moduleUsing);
+	h=sprite->HeightModule(moduleUsing);
 
 	this->x=x;//(WIDTH_SCREEN / 2)-(w/2);
 	this->y=y;//(HEIGHT_SCREEN-80)-(h);
@@ -18,7 +23,7 @@ Nave::~Nave(){
 	delete sprite;
 }
 void Nave::Pintar(){
-	sprite->PintarModulo(0,x,y);
+	sprite->PintarModulo(moduleUsing,x,y);
 }
 //
 void Nave::Mover(int posicion){
