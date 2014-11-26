@@ -10,7 +10,7 @@ class SpriteDef{
 		int h;
 	};
 public:
-	Modulo modulo[3];//Numero de modulos
+	Modulo modulo[4];//Numero de modulos
 	SpriteDef();//Constructor
 };
 #endif

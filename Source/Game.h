@@ -1,8 +1,8 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include "Objeto.h"
 #include "Nave.h"
-
 
 class CGame 
 {
@@ -24,7 +24,7 @@ private:
 	
 	void Iniciando();
 	void MoverEnemigo();
-	bool esLimitePantalla(Nave *objeto, int bandera);
+	bool esLimitePantalla(Objeto *objeto, int bandera);
 	//unsigned int x;
 
 	Uint8 *keys;//esta variable para ver si determinadas teclas esta
@@ -33,15 +33,15 @@ private:
 	SDL_Surface *screen;
 	Nave *nave;
 	//Nave *enemigo;
-	Nave **enemigoArreglo;
+	Objeto **enemigoArreglo;
 	//5+
-	Nave *menu;
-	Nave *titulos;
-	Nave *fondo;
+	Objeto *menu;
+	Objeto *titulos;
+	Objeto *fondo;
 	//5-
 //6+
-	Nave *btnInicio;
-	Nave *btnSalir;
+	Objeto *btnInicio;
+	Objeto *btnSalir;
 	//6-
 
 	Estado estado;

@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "Sprite.h"
-#include "Nave.h"
+#include "Objeto.h"
 
 CGame::CGame(){
 	frames=0;
@@ -29,19 +29,19 @@ void CGame::Iniciando(){
 	SDL_WM_SetCaption( "Galaxia UPBC Atack", NULL);
 	nave = new Nave(screen, "../Data/MiNave.bmp",(WIDTH_SCREEN / 2)/*-(w/2)*/,(HEIGHT_SCREEN-80)/*-(h)*/,0);
 	
-	menu = new Nave(screen, "../Data/menu.bmp",0,0,1);
+	menu = new Objeto(screen, "../Data/menu.bmp",0,0,1);
 	//enemigo = new Nave(screen, "../Data/emuerte.bmp",0,0);
 	//6+
-	titulos= new Nave(screen,"../Data/titulos.bmp",0,0,1);
-	btnInicio= new Nave(screen,"../Data/btnInicio.bmp",0,0,1);
-	btnSalir= new Nave(screen,"../Data/btnSalir.bmp",0,0,1);
+	titulos= new Objeto(screen,"../Data/titulos.bmp",0,0,1);
+	btnInicio= new Objeto(screen,"../Data/btnInicio.bmp",0,0,1);
+	btnSalir= new Objeto(screen,"../Data/btnSalir.bmp",0,0,1);
 	//6-
 	//FONFO+
-	fondo=new Nave(screen, "../Data/fondo.bmp",0,0,1);
+	fondo=new Objeto(screen, "../Data/fondo.bmp",0,0,1);
 	//FONDO-
-	enemigoArreglo = new Nave* [10];
+	enemigoArreglo = new Objeto* [10];
 	for	(int i=0;i<10;i++)
-	enemigoArreglo[i] =new Nave(screen, "../Data/enemigo.bmp",i*65,0,2);
+	enemigoArreglo[i] =new Objeto(screen, "../Data/enemigo.bmp",i*65,0,2);
 
 	//enemigoParabola=-100.0f;
 	//enemigo->SetStep(4);
@@ -128,22 +128,22 @@ bool CGame::Start()
 
 			MoverEnemigo();
 
-			if(keys[SDLK_RIGHT]&& !esLimitePantalla(nave,BORDE_DERECHO)){
+			if(keys[SDLK_RIGHT]&& !esLimitePantalla(nave->GetNaveObjeto(),BORDE_DERECHO)){
 
 			//nave->PintarModulo(0,100,100);
-			nave->Mover(8);
+			nave->Mover();
 			///Iniciando();
 				///estado=ESTADO_MENU;
 			}
 			//
-			if(keys[SDLK_LEFT]&& !esLimitePantalla(nave,BORDE_IZQUIERDO)){
-			nave->MoverIzquierda(8);
+			if(keys[SDLK_LEFT]&& !esLimitePantalla(nave->GetNaveObjeto(),BORDE_IZQUIERDO)){
+			nave->MoverIzquierda();
 			}
-			if(keys[SDLK_UP]&& !esLimitePantalla(nave,BORDE_SUPERIOR)){
-			nave->MoverArriba(8);
+			if(keys[SDLK_UP]&& !esLimitePantalla(nave->GetNaveObjeto(),BORDE_SUPERIOR)){
+			nave->MoverArriba();
 			}
-			if(keys[SDLK_DOWN]&& !esLimitePantalla(nave,BORDE_INFERIOR)){
-			nave->MoverAbajo(8);
+			if(keys[SDLK_DOWN]&& !esLimitePantalla(nave->GetNaveObjeto(),BORDE_INFERIOR)){
+			nave->MoverAbajo();
 			}
 			//fondo+
 			fondo->Pintar();
@@ -151,10 +151,19 @@ bool CGame::Start()
 			//
 			nave->Pintar();
 			//enemigo->Pintar();
-
+			nave->Actualizar();
 			for (int i=0;i<10;i++)
 				enemigoArreglo[i]->Pintar();
-
+		/*
+			if (modulo[0] && !collision (&nave,&enemigoArreglo))
+			estado=ESTADO_FINALIZADO;
+			*/
+			//bala+
+			if(keys[SDLK_SPACE]){
+			nave->Disparar();
+			//nave->Actualizar();
+			}
+			//bala-
 			break;
 			case Estado::ESTADO_TERMINADO:	//TERMINAR
 			break;
@@ -180,7 +189,7 @@ bool CGame::Start()
     }
 	return true;
 }
-bool CGame::esLimitePantalla(Nave *objeto, int bandera){
+bool CGame::esLimitePantalla(Objeto *objeto, int bandera){
 	if(bandera & BORDE_IZQUIERDO)
 		if (objeto->obtenerX() <=0)
 			return true;
